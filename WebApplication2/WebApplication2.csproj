@@ -308,10 +308,15 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
+    <Content Include="Views\symptoms\Delete.cshtml" />
+    <Content Include="Views\symptoms\Edit.cshtml" />
+    <Content Include="Views\symptoms\Index.cshtml" />
+    <Content Include="Views\symptoms\Create.cshtml" />
+    <Content Include="Views\symptoms\Search2.cshtml" />
+    <Content Include="Views\symptoms\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\symptoms\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -1,0 +1,112 @@
+﻿@model WebApplication2.Models.SymptomSearchViewModel
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>SymptomEntity</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SearchParameters.AgeGroup, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EnumDropDownListFor(x => x.SearchParameters.AgeGroup, "Select age group", new {Name = "ageGroup", id="ageGroup", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SearchParameters.AgeGroup, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SearchParameters.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EnumDropDownListFor(x => x.SearchParameters.Gender, "Select gender", new { Name = "gender", id ="gender", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SearchParameters.Gender, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SearchParameters.Region, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                    @Html.EnumDropDownListFor(x => x.SearchParameters.Region, "Select region", new {Name = "region", id= "region", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SearchParameters.Region, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group has-feedback" >
+            @Html.Label("Symptoms", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("Symptoms", new { htmlAttributes = new { Name = "symptoms", id = "symptoms", @class = "form-control" } })
+                <span class="input-group-btn"><i class="form-control-feedback glyphicon glyphicon-minus right right"></i></span>
+                @Html.ValidationMessage("Symptoms", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SearchParameters.LikelyDiagnosis, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SearchParameters.LikelyDiagnosis, new { htmlAttributes = new { Name = "likelyDiagnosis", id = "likelyDiagnosis", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SearchParameters.LikelyDiagnosis, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SearchParameters.Symptom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SearchParameters.AgeGroup)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SearchParameters.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SearchParameters.Region)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SearchParameters.LikelyDiagnosis)
+        </th>
+    </tr>
+
+@foreach (var item in Model.SearchResult)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Symptom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AgeGroup)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Region)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LikelyDiagnosis)
+        </td>
+    </tr>
+}
+
+</table>

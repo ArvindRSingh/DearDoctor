@@ -47,6 +47,7 @@ namespace WebApplication2.Models
     }
     public class SymptomEntity : TableEntity
     {
+
         public static string GetRowKey(AgeGroup? ageGroup, Gender? gender, Region? region)
         {
             return string.Concat(
@@ -61,10 +62,71 @@ namespace WebApplication2.Models
             this.PartitionKey = symptom;
             this.RowKey = SymptomEntity.GetRowKey(ageGroup, gender, region);
         }
+
         public SymptomEntity() { }
-        public Gender Gender { get; set; }
-        public Region Region { get; set; }
+
+        public string Symptom { get { return this.PartitionKey; } set { this.PartitionKey = value; } }
+
+
+        AgeGroup _ageGroup;
+        public AgeGroup AgeGroup
+        {
+            get { return this._ageGroup; }
+            set
+            {
+                this._ageGroup = value;
+                this.RowKey = SymptomEntity.GetRowKey(this.AgeGroup, this.Gender, this.Region);
+            }
+        }
+
+        Gender _gender;
+        public Gender Gender
+        {
+            get { return this._gender; }
+            set
+            {
+                this._gender = value;
+                this.RowKey = SymptomEntity.GetRowKey(this.AgeGroup, this.Gender, this.Region);
+            }
+        }
+
+        Region _region;
+        public Region Region
+        {
+            get
+            {
+                return this._region;
+            }
+            set
+            {
+                this._region = value;
+                this.RowKey = SymptomEntity.GetRowKey(this.AgeGroup, this.Gender, this.Region);
+            }
+        }
+
+
         public string LikelyDiagnosis { get; set; }
 
+    }
+
+    public class SymptomSearchViewModel
+    {
+        public IList<SymptomEntity> SearchResult { get; set; }
+        public SymptomEntity SearchParameters { get; set; }
+    }
+
+    public class SymptomSearchViewModelPure
+    {
+        public SymptomSearchViewModelPure()
+        {
+            this.Diagnosis = new List<SymptomEntity>();
+            this.Symptoms = new List<string>();
+        }
+        public Gender Gender { get; set; }
+        public Region Region { get; set; }
+        public AgeGroup AgeGroup { get; set; }
+        public string RowKey { get; set; }
+        public List<string> Symptoms { get; set; }
+        public List<SymptomEntity> Diagnosis { get; set; }
     }
 }

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<WebApplication2.Models.SymptomEntity>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Symptom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RowKey)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LikelyDiagnosis)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Symptom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RowKey)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LikelyDiagnosis)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { symptom = item.Symptom, ageGroup = item.AgeGroup, gender = item.Gender, region = item.Region }) |
+                @Html.ActionLink("Details", "Details", new { symptom = item.Symptom, ageGroup = item.AgeGroup, gender = item.Gender, region = item.Region }) |
+                @Html.ActionLink("Delete", "Delete", new { symptom = item.Symptom, ageGroup = item.AgeGroup, gender = item.Gender, region = item.Region })
+            </td>
+        </tr>
+    }
+
+</table>

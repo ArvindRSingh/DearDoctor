@@ -1,0 +1,116 @@
+﻿@model WebApplication2.Models.SymptomSearchViewModelPure
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>SymptomSearchViewModelPure</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.AgeGroup, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EnumDropDownListFor(x => x.AgeGroup, "Select age group", new { Name = "ageGroup", id = "ageGroup", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AgeGroup, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EnumDropDownListFor(x => x.Gender, "Select gender", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Region, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(x => x.Region, "Select region", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        
+        <div class="form-group has-feedback">
+            
+
+            @Html.Label("Symptoms", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <ol>
+                    <li>
+                        <input type="text" name="symptoms"  />
+                    </li>
+                    <li>
+                        <input type="text" name="symptoms"  />
+                    </li>
+                    <li>
+                        <input type="text" name="symptoms"  />
+                    </li>
+                    <li>
+                        <input type="text" name="symptoms"  />
+                    </li>
+                    <li>
+                        <input type="text" name="symptoms"  />
+                    </li>
+                </ol>
+                @Html.ValidationMessage("Symptoms", "", new { @class = "text-danger" })
+            </div>
+
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table">
+    <tr>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Symptoms)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RowKey)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Diagnosis)
+        </th>
+    </tr>
+    @foreach (var item in Model.Diagnosis)
+    {
+        <tr>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Symptom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RowKey)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.LikelyDiagnosis)
+            </td>
+        </tr>
+    }
+</table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+}
