@@ -106,6 +106,8 @@ namespace WebApplication2.Models
 
 
         public string LikelyDiagnosis { get; set; }
+        public string Prescription { get; set; }
+        public string Notes { get; set; }
 
     }
 
@@ -128,5 +130,7 @@ namespace WebApplication2.Models
         public string RowKey { get; set; }
         public List<string> Symptoms { get; set; }
         public List<SymptomEntity> Diagnosis { get; set; }
+        public string Prescription { get; set; }
+        public string Notes { get; set; }
     }
 }

@@ -144,9 +144,19 @@ namespace WebApplication2.Controllers
         }
 
         // GET: symptoms/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string partitionKey, string rowKey)
         {
-            return View();
+            var filter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey);
+            filter = TableQuery.CombineFilters(
+                    filter,
+                    TableOperators.And,
+                    TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, rowKey)
+                    );
+            new TableQuery().Where(filter);
+            var rangeQuery = new TableQuery<SymptomEntity>()
+                    .Where(filter);
+            var entity = table.ExecuteQuery(rangeQuery).FirstOrDefault();
+            return View(entity);
         }
 
         // GET: symptoms/Create
@@ -172,14 +182,18 @@ namespace WebApplication2.Controllers
             }
         }
 
-        // GET: symptoms/Edit/5
-        public ActionResult Edit(string symptom, AgeGroup ageGroup, Gender gender, Region region)
+        //public ActionResult Edit(string symptom, AgeGroup ageGroup, Gender gender, Region region)
+        //{
+        //    return this.Edit(symptom, SymptomEntity.GetRowKey(ageGroup, gender, region));
+        //}
+
+        public ActionResult Edit(string partitionKey, string rowKey)
         {
-            var filter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, symptom);
+            var filter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey);
             filter = TableQuery.CombineFilters(
                     filter,
                     TableOperators.And,
-                    TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, SymptomEntity.GetRowKey(ageGroup, gender, region))
+                    TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, rowKey)
                     );
             new TableQuery().Where(filter);
             var rangeQuery = new TableQuery<SymptomEntity>()
@@ -206,18 +220,32 @@ namespace WebApplication2.Controllers
         }
 
         // GET: symptoms/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string partitionKey, string rowKey)
         {
             return View();
         }
 
         // POST: symptoms/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(string partitionKey, string rowKey, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                var filter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey);
+                filter = TableQuery.CombineFilters(
+                        filter,
+                        TableOperators.And,
+                        TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, rowKey)
+                        );
+               
+
+                new TableQuery().Where(filter);
+                var rangeQuery = new TableQuery<SymptomEntity>()
+                        .Where(filter);
+                var entity = table.ExecuteQuery(rangeQuery).FirstOrDefault();
+
+                TableOperation deleteOperation = TableOperation.Delete(entity);
+                table.Execute(deleteOperation);
 
                 return RedirectToAction("Index", new { showAll = true });
             }
